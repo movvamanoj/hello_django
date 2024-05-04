@@ -16,8 +16,11 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
+          username: ${{ secrets.EC2_USER }}
+          host: ${{ secrets.EC2_HOST }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
+
       - name: GitClone repository
         run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
 
@@ -25,25 +28,23 @@ jobs:
         run: |
           sudo apt update -y 
           sudo apt install python3-venv -y  
-          python3 -m venv ./venv
+
+      - name: Create virtual environment
+        run: python3 -m venv ./venv
+
+      - name: Activate virtual environment
+        run: source ./venv/bin/activate
 
       - name: Install project dependencies (within virtual environment)
         run: |
-          source ./venv/bin/activate
           cd ./django_project
           pip install -r requirements.txt
 
       - name: Run migrations 
         run: |
-          source ./venv/bin/activate
           cd ./django_project
-          python manage.py migrate
+          python3 manage.py migrate
 
-      - name: Start Django server using Supervisor
+      - name: Start Django in background
         run: |
-          sudo apt-get install supervisor -y
-          sudo cp ./django_project/deploy/supervisor_django.conf /etc/supervisor/conf.d/
-          sudo supervisorctl reread
-          sudo supervisorctl update
-          sudo supervisorctl restart django
-
+          nohup python3 manage.py runserver 0.0.0.0:8000
