@@ -44,5 +44,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          source venv/bin/activate
           cd hello_django
           python manage.py runserver
