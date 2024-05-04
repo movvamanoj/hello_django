@@ -32,17 +32,13 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Install Gunicorn
-      run: |
-        python3 -m pip install gunicorn
-
     - name: Run migrations and collect static files
       run: |
         cd ./django_project
         python3 manage.py migrate
         python3 manage.py collectstatic --no-input
 
-    - name: Start Gunicorn server
+    - name: Start Django development server
       run: |
         cd ./django_project
-        gunicorn --bind 0.0.0.0:8000 hello_django.wsgi:application
+        python3 manage.py runserver 0.0.0.0:8000
