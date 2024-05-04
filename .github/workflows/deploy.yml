@@ -21,24 +21,32 @@ jobs:
     - name: Clone repository
       run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
 
-    - name: Install dependencies
+    - name: Install Python dependencies
       run: |
         sudo apt update
         sudo apt install -y python3 python3-pip python3-venv
 
-    - name: Install project dependencies
+    - name: Setup Python virtual environment and install project dependencies
       run: |
         cd ./django_project
-        python3 -m pip install --upgrade pip
+        python3 -m venv venv
+        source ./venv/bin/activate
         pip install -r requirements.txt
 
     - name: Run migrations and collect static files
       run: |
         cd ./django_project
-        python3 manage.py migrate
-        python3 manage.py collectstatic --no-input
+        source ./venv/bin/activate
+        python manage.py migrate
+        python manage.py collectstatic --no-input
 
-    - name: Start Django development server
+    - name: Install uWSGI within the virtual environment
+      run: |
+        source ./venv/bin/activate
+        pip install uwsgi
+
+    - name: Start uWSGI server
       run: |
         cd ./django_project
-        python3 manage.py runserver
+        source ./venv/bin/activate
+        ./venv/bin/uwsgi --http :8000 --module hello_django.wsgi
