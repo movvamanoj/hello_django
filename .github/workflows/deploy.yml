@@ -20,12 +20,12 @@ jobs:
           username: ${{ secrets.EC2_USER }}  
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           script: |
-            git clone https://github.com/movvamanoj/hello_django.git ./django_project
+            git clone https://github.com/movvamanoj/hello_django.git
             sudo apt update -y 
             sudo apt install python3-venv -y  
             python3 -m venv ./venv
             source ./venv/bin/activate
-            cd ./django_project
+            cd hello_django
             pip install -r requirements.txt
             python3 manage.py migrate
             nohup python3 manage.py runserver 0.0.0.0:8000 &
