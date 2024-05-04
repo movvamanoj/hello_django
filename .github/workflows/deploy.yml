@@ -40,4 +40,4 @@ jobs:
         run: |
           cd ./django_project
           # Replace with a production server command like gunicorn
-          python3 manage.py runserver 0.0.0.0:8000
+          python3 manage.py runserver 0.0.0.0:8001
