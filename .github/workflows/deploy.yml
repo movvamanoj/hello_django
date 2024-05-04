@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Keep Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -21,23 +21,27 @@ jobs:
       - name: Clone repository
         run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
 
-      - name: Install dependencies (Ubuntu specific)
+      - name: Install dependencies (create virtual environment)
         run: |
-          sudo apt update -y  # Update package lists
-          sudo apt install python3-pip -y  # Install pip for Python 3
+          sudo apt update -y 
+          sudo apt install python3-venv -y  
 
-      - name: Install project dependencies
+      - name: Create virtual environment
+        run: python3 -m venv ./venv
+
+      - name: Activate virtual environment
+        run: source ./venv/bin/activate
+
+      - name: Install project dependencies (within virtual environment)
         run: |
           cd ./django_project
           pip install -r requirements.txt
 
       - name: Run migrations 
         run: |
-          cd ./django_project
           python3 manage.py migrate
 
       - name: Start Django (modify for production use)
         run: |
-          cd ./django_project
           # Replace with a production server command like gunicorn
-          python3 manage.py runserver 0.0.0.0:8001
+          python3 manage.py runserver 0.0.0.0:8000
