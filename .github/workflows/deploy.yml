@@ -29,10 +29,6 @@ jobs:
         # Navigate to the project directory
         cd hello_django
 
-        # Restart Gunicorn and Nginx services
-        sudo systemctl restart gunicorn
-        sudo systemctl restart nginx
-
     - name: SSH into EC2 and deploy
       uses: appleboy/ssh-action@master
       with:
@@ -42,7 +38,5 @@ jobs:
         port: 22
         script: |
           cd hello_django
-          git pull origin master
-          source venv/bin/activate
-          sudo systemctl restart gunicorn
-          sudo systemctl restart nginx
+          git pull origin main
+          python manage.py runserver
