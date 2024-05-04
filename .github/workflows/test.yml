@@ -49,4 +49,4 @@ jobs:
       run: |
         cd ./django_project
         source ./venv/bin/activate
-        ./venv/bin/uwsgi --http :8000 --module hello_django.wsgi
+        ./venv/bin/uwsgi --http :8000 --module hello_django.wsgi &
