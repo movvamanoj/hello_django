@@ -41,4 +41,5 @@ jobs:
     - name: Start Django development server
       run: |
         cd ./django_project
-        python3 manage.py runserver 0.0.0.0:8000
+        EC2_HOST="${{ secrets.EC2_HOST }}"
+        python3 manage.py runserver $EC2_HOST:8000
