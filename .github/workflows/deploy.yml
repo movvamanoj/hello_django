@@ -41,10 +41,11 @@ jobs:
         run: |
           python3 manage.py migrate
 
+      - name: Start Django in background
+        run: |
+          nohup python3 manage.py runserver 0.0.0.0:8000 &
+
       # - name: Start Django (modify for production use)
       #   run: |
       #     # Replace with a production server command like gunicorn
       #     python3 manage.py runserver 0.0.0.0:8000
-      - name: Start Django in background
-        run: |
-          nohup python3 manage.py runserver 0.0.0.0:8000 &
