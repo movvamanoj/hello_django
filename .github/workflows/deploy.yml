@@ -16,12 +16,10 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          username: ${{ secrets.EC2_USER }}
-          host: ${{ secrets.EC2_HOST }} 
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
 
-      - name: Clone repository
+      - name: GitClone repository
         run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
 
       - name: Install dependencies (create virtual environment)
@@ -47,4 +45,4 @@ jobs:
 
       - name: Start Django in background
         run: |
-          nohup python3 manage.py runserver 0.0.0.0:8000 &
+          python3 manage.py runserver 0.0.0.0:8000 &

@@ -16,6 +16,8 @@ jobs:
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
+        username: ${{ secrets.EC2_USER }}
+        host: ${{ secrets.EC2_HOST }} 
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Clone repository
