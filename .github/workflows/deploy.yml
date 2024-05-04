@@ -23,8 +23,18 @@ jobs:
         pip install django
         pip install gunicorn
 
-        # Clone the code from GitHub
-        git clone https://github.com/movvamanoj/hello_django.git
+        # Check if the directory exists
+        if [ -d "hello_django" ]; then
+          # Navigate to the existing project directory
+          cd hello_django
+          # Pull changes from GitHub
+          git pull origin main
+        else
+          # Clone the code from GitHub into a new directory
+          git clone https://github.com/movvamanoj/hello_django.git
+          # Navigate to the new project directory
+          cd hello_django
+        fi
 
     - name: SSH into EC2 and deploy
       uses: appleboy/ssh-action@master
@@ -35,5 +45,4 @@ jobs:
         port: 22
         script: |
           cd hello_django
-          git pull origin main
           python manage.py runserver
