@@ -16,9 +16,7 @@ jobs:
       - name: SSH into EC2 and deploy
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: ${{ secrets.EC2_HOST }}  
-          username: ${{ secrets.EC2_USER }}  
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
 
       - name: GitClone repository
