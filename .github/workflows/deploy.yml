@@ -1,4 +1,4 @@
-name: Deploy to Amazon Linux EC2
+name: Deploy to Ubuntu EC2
 
 on:
   push:
@@ -7,36 +7,37 @@ on:
 
 jobs:
   deploy:
-    runs-on: amazon-linux-latest
+    runs-on: ubuntu-latest  # Keep Ubuntu runner
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Clone repository
-      run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
+      - name: Clone repository
+        run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
 
-    - name: Install dependencies
-      run: |
-        sudo yum install python3-pip
-        pip install django
+      - name: Install dependencies (Ubuntu specific)
+        run: |
+          sudo apt update -y  # Update package lists
+          sudo apt install python3-pip -y  # Install pip for Python 3
 
-    - name: Install project dependencies
-      run: |
-        cd ./django_project
-        pip install -r requirements.txt
+      - name: Install project dependencies
+        run: |
+          cd ./django_project
+          pip install -r requirements.txt
 
-    - name: Run migrations 
-      run: |
-        cd ./django_project
-        python3 manage.py migrate
+      - name: Run migrations 
+        run: |
+          cd ./django_project
+          python3 manage.py migrate
 
-    - name: Start Django
-      run: |
-        cd ./django_project
-        python3 manage.py runserver 0.0.0.0:8000
+      - name: Start Django (modify for production use)
+        run: |
+          cd ./django_project
+          # Replace with a production server command like gunicorn
+          python3 manage.py runserver 0.0.0.0:8000
