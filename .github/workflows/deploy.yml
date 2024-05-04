@@ -16,7 +16,7 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          username: "ubuntu"
+          username: ${{ secrets.EC2_USER }}
           host: ${{ secrets.EC2_HOST }} 
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
@@ -42,13 +42,9 @@ jobs:
 
       - name: Run migrations 
         run: |
+          cd ./django_project
           python3 manage.py migrate
 
       - name: Start Django in background
         run: |
           nohup python3 manage.py runserver 0.0.0.0:8000 &
-
-      # - name: Start Django (modify for production use)
-      #   run: |
-      #     # Replace with a production server command like gunicorn
-      #     python3 manage.py runserver 0.0.0.0:8000
