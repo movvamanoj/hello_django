@@ -50,9 +50,3 @@ jobs:
         cd ./django_project
         source ./venv/bin/activate
         ./venv/bin/uwsgi --http :8000 --module hello_django.wsgi
-
-    - name: Start Django development server
-      run: |
-        cd ./django_project
-        source ./venv/bin/activate
-        python manage.py runserver
