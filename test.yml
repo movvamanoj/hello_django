@@ -1,24 +1,25 @@
-name: Deploy to EC2
+name: Deploy to Ubuntu EC2
 
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: SSH into EC2 and deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }} 
-        username: ${{ secrets.EC2_USER }}  
-        key: ${{ secrets.SSH_PRIVATE_KEY }}  
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }} 
+          username: ${{ secrets.EC2_USER }}  
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          
 
       - name: GitClone repository
         run: git clone https://github.com/movvamanoj/hello_django.git ./django_project
