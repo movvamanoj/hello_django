@@ -26,9 +26,6 @@ jobs:
         # Clone the code from GitHub
         git clone https://github.com/movvamanoj/hello_django.git
 
-        # Navigate to the project directory
-        cd hello_django
-
     - name: SSH into EC2 and deploy
       uses: appleboy/ssh-action@master
       with:
