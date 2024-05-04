@@ -1,0 +1,48 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies and deploy
+      run: |
+        sudo apt update
+        sudo apt install python3 python3-pip virtualenv nginx git
+        sudo apt-get install python3-venv
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install django
+        pip install gunicorn
+
+        # Clone the code from GitHub
+        git clone https://github.com/movvamanoj/hello_django.git
+
+        # Navigate to the project directory
+        cd hello_django
+
+        # Restart Gunicorn and Nginx services
+        sudo systemctl restart gunicorn
+        sudo systemctl restart nginx
+
+    - name: SSH into EC2 and deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd hello_django
+          git pull origin master
+          source venv/bin/activate
+          sudo systemctl restart gunicorn
+          sudo systemctl restart nginx
