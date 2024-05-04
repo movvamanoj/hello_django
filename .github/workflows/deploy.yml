@@ -38,7 +38,8 @@ jobs:
         python3 manage.py migrate
         python3 manage.py collectstatic --no-input
 
-    - name: Start Django development server
+    - name: Start Django with Gunicorn
       run: |
         cd ./django_project
-        python3 manage.py runserver
+        sudo apt-get install -y gunicorn
+        gunicorn hello_django.wsgi:application
