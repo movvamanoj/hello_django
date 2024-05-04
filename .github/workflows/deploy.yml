@@ -42,4 +42,4 @@ jobs:
       run: |
         cd ./django_project
         sudo apt-get install -y gunicorn
-        nohup gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000 &
+        nohup gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000 
