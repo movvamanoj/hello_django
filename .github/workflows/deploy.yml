@@ -30,10 +30,11 @@ jobs:
         with:
           entryPoint: sonar-scanner
           args: >
-            -Dsonar.projectKey=$PROJECT_KEY
-            -Dsonar.organization=$ORGANIZATION
-            -Dsonar.login=$SONAR_TOKEN
-            -Dsonar.host.url=$SONAR_HOST_URL
+            -Dsonar.projectKey=${{ env.PROJECT_KEY }}
+            -Dsonar.organization=${{ env.ORGANIZATION }}
+            -Dsonar.login=${{ env.SONAR_TOKEN }}
+            -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
+
 
       - name: Deploy to Ubuntu EC2 (if SonarQube analysis succeeds)
         uses: appleboy/ssh-action@master
