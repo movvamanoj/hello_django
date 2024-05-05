@@ -39,9 +39,9 @@ jobs:
       - name: Deploy to Ubuntu EC2 (if SonarQube analysis succeeds)
         uses: appleboy/ssh-action@master
         with:
-          host: $EC2_HOST
-          username: $EC2_USER
-          key: $SSH_PRIVATE_KEY
+          host: ${{ env.EC2_HOST }} 
+          username: ${{ env.EC2_USER }}  
+          key: ${{ env.SSH_PRIVATE_KEY }} 
           if: ${{ steps.analyze.outputs.success }}
           script: |
             git clone https://github.com/movvamanoj/hello_django.git
