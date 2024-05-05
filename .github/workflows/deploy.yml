@@ -17,7 +17,7 @@ jobs:
 
       - name: Analyze Code Quality with SonarQube
         uses: sonarsource/sonarqube-scan-action@master
-        env:
+        with:
           projectKey: hello_django
           organization: JHC
           login: ${{ secrets.SONAR_TOKEN }}
