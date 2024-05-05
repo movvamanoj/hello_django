@@ -11,13 +11,12 @@ jobs:
 
     steps:
       - name: Checkout Codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Analyze Code Quality with SonarQube
-        uses: sonarsource/sonarcube-scan@v1.4.0
-        timeout-minutes: 5
+        uses: sonarsource/sonarqube-scan-action@master
         with:
           projectKey: hello_django
           organization: JHC
