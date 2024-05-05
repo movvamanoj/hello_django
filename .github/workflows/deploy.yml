@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Analyze Code Quality with SonarQube
-        uses: kitabisa/sonarqube-action@v1.2.0
+        uses: sonarsource/sonarcube-scan@v1.4.0
         timeout-minutes: 5
         with:
           projectKey: hello_django
