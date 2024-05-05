@@ -15,11 +15,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Analyze Code Quality with SonarQube
+      - name: Set up SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
           entryPoint: sonar-scanner
-          args: -Dsonar.projectKey=hello_django -Dsonar.organization=JHC -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          args: -Dsonar.projectKey=hello_django -Dsonar.organization=JHC -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
       - name: Deploy to Ubuntu EC2 (if SonarQube analysis succeeds)
         uses: appleboy/ssh-action@master
@@ -27,7 +27,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          if: ${{ steps.analyze.outputs.success }}
+          if: ${{ success() }}
           script: |
             git clone https://github.com/movvamanoj/hello_django.git
             sudo apt update -y
