@@ -5,6 +5,13 @@ on:
     branches:
       - main
 
+env:
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USER: ${{ secrets.EC2_USER }}
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,9 +31,9 @@ jobs:
       - name: Deploy to Ubuntu EC2 (if SonarQube analysis succeeds)
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: $EC2_HOST
+          username: $EC2_USER
+          key: $SSH_PRIVATE_KEY
           if: ${{ steps.analyze.outputs.success }}
           script: |
             git clone https://github.com/movvamanoj/hello_django.git
