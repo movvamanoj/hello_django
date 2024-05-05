@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          if: ${{ success() }}
+          if: ${{ steps.analyze.outputs.success }}
           script: |
             git clone https://github.com/movvamanoj/hello_django.git
             sudo apt update -y
@@ -41,43 +41,3 @@ jobs:
             pip install -r requirements.txt
             python3 manage.py migrate
             nohup python3 manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
-
-
-
-
-
-
-
-
-
-# name: Deploy to Ubuntu EC2
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: SSH into EC2 and deploy
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.EC2_HOST }} 
-#           username: ${{ secrets.EC2_USER }}  
-#           key: ${{ secrets.SSH_PRIVATE_KEY }} 
-#           script: |
-#             git clone https://github.com/movvamanoj/hello_django.git
-#             sudo apt update -y 
-#             sudo apt install python3-venv -y  
-#             python3 -m venv ./venv
-#             source ./venv/bin/activate
-#             cd hello_django
-#             pip install -r requirements.txt
-#             python3 manage.py migrate
-#             nohup python3 manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
