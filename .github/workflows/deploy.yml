@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Analyze Code Quality with SonarQube
-        uses: sonarsource/sonarqube-scan-action@master
+        uses: sonarsource/sonarcube-scan@v1.4.0
         with:
           projectKey: hello_django
           organization: JHC
