@@ -27,7 +27,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          if: ${{ success() }}
+          if: ${{ steps.analyze.outputs.success }}
           script: |
             git clone https://github.com/movvamanoj/hello_django.git
             sudo apt update -y
